@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function TrainingForm ({form, onFormChange, onSubmit}) {
+export default function TrainingForm ({form, onFormChange, onSubmit, mileageRef, isEdit}) {
   return (
     <form onSubmit={onSubmit}>
       <section>
@@ -13,6 +13,7 @@ export default function TrainingForm ({form, onFormChange, onSubmit}) {
           placeholder="ДД.ММ.ГГ"
           onChange={onFormChange}
           autoFocus
+          disabled={isEdit}
           />
       </section>
 
@@ -25,6 +26,7 @@ export default function TrainingForm ({form, onFormChange, onSubmit}) {
           value={form.mileage}
           placeholder="Пройдено (км)"
           onChange={onFormChange}
+          ref={mileageRef}
           />
       </section>
 
