@@ -1,0 +1,50 @@
+form {
+  width: 500px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+form section {
+  margin: 5px;
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+}
+
+form section:last-of-type {
+  width: 50px;
+}
+
+form section input {
+  border-radius: 10px;
+  line-height: 40px;
+  background-color: aliceblue;
+  margin-top: auto;
+}
+
+div.table-container {
+  clear: left;
+  background-color:aliceblue;
+  width: 500px;
+}
+
+table {
+  width: 100%;
+  text-align: left;
+  border:1px solid black;
+}
+
+table th,td {
+  padding-left: 10px;
+  border:1px solid grey;
+}
+
+table td:last-of-type {
+  text-align: center;
+}
+
+table tr.is-being-edited {
+  background-color: cadetblue;
+}
