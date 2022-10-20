@@ -8,7 +8,7 @@ export default function TrainingForm ({form, onFormChange, onSubmit, mileageRef,
         <input
           id="date"
           name="date"
-          type="text"
+          type="date"
           value={form.date}
           placeholder="ДД.ММ.ГГ"
           onChange={onFormChange}
@@ -22,7 +22,7 @@ export default function TrainingForm ({form, onFormChange, onSubmit, mileageRef,
         <input
           id="mileage"
           name="mileage"
-          type="text"          
+          type="number"          
           value={form.mileage}
           placeholder="Пройдено (км)"
           onChange={onFormChange}

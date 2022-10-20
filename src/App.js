@@ -13,7 +13,7 @@ function App() {
   
   const [trainings, setTrainings] = useState([]);
 
-  const [editDate, setEditDate] = useState('');  
+  const [editItem, setEditItem] = useState(null);  
   
   const handleFormChange = (e) => {
     const {name, value} = e.target;
@@ -24,51 +24,70 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const i = trainings.findIndex(x => x.date === form.date);
 
-    // Add training
-    if (i<0) {
-      setTrainings([...trainings, form].sort((a, b) => Date.parse(a.date) - Date.parse(b.date)));
+    const newDate = form.date;
+    var dateRegexp = /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/;
+    if (!newDate.match(dateRegexp)) {
       return;
     };
 
-    let newTrainings = [...trainings];
+    let newMileage = form.mileage;
+    if (newMileage == null) {
+      return;
+    };
+    newMileage = parseFloat(newMileage.toString().replace(",", "."));
+    if (isNaN(newMileage)) {return};
+    setForm(prevForm => ({
+      ...prevForm, mileage: newMileage
+    }));
+
+
+    const i = trainings.findIndex(x => x.date === newDate);
     const newTraining = {
-      date: form.date,
-      mileage: parseFloat(form.mileage.toString().replace(",", "."))
+      date: newDate,
+      mileage: newMileage
       };
 
-    if (editDate) {
-      newTrainings[i].mileage = newTraining.mileage;
-      setEditDate('');
-      mileageRef.current.blur();
-    }
-    else {
+    // Add training
+    if (i<0) {
+      setTrainings([...trainings, newTraining].sort((a, b) => Date.parse(a.date) - Date.parse(b.date)));
+      setForm({
+        date: '',
+        mileage: 0
+      });
+      return;
+    };
+
+    
+    let newTrainings = [...trainings];
+
+    if (editItem == null) { // Add milage
       newTrainings[i].mileage += newTraining.mileage;
+    } else { // Edit training
+      newTrainings[i].mileage = newTraining.mileage;
+      setEditItem(null);
+      mileageRef.current.blur();
     };
 
   setTrainings(newTrainings);
   };
 
-  const handleDelete = (e, date) => {
+  const handleDelete = (e, i) => {
     let newTrainings = [...trainings];
-    const i = trainings.findIndex(x => x.date === date);
-    if (i>=0)
-      {
-      newTrainings.splice(i, 1);
-      setTrainings(newTrainings);
-      };
+    newTrainings.splice(i, 1);
+    setTrainings(newTrainings);
   };
 
-  const handleEdit = (e, date) => {
-    setEditDate(date);
+  const handleEdit = (e, i) => {
+    setEditItem(i);
+    setForm(() => trainings[i]);
     mileageRef.current.focus();
   };
 
   return (
     <div>
-      <TrainingForm form={form} onFormChange={handleFormChange} onSubmit={handleSubmit} mileageRef={mileageRef} isEdit={editDate} />
-      <TrainingTable trainings={trainings} onDelete={handleDelete} onEdit={handleEdit} editDate={editDate} />
+      <TrainingForm form={form} onFormChange={handleFormChange} onSubmit={handleSubmit} mileageRef={mileageRef} isEdit={editItem} />
+      <TrainingTable trainings={trainings} onDelete={handleDelete} onEdit={handleEdit} editItem={editItem} />
     </div>
   );
 };

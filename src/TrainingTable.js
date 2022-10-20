@@ -2,16 +2,16 @@ import React from "react";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPenToSquare, faTrash} from "@fortawesome/free-solid-svg-icons";
 
-export default function TrainingTable({trainings, onDelete, onEdit, editDate}) {
-  const trainingElements = [...trainings].map((training, i) =>
-  <tr key={i} className={training.date === editDate ? 'is-being-edited' : null}>
+export default function TrainingTable({trainings, onDelete, onEdit, editItem}) {
+  const trainingElements = [...trainings].map((training, index) =>
+  <tr key={index} className={index === editItem ? 'is-being-edited' : null}>
     <td>{training.date}</td>
     <td>{training.mileage}</td>
     <td>
-      {editDate ? null :
+      {editItem != null ? null:
         <>
-          <FontAwesomeIcon icon={faPenToSquare} onClick={(e, date) => onEdit(e, training.date)} />&nbsp;
-          <FontAwesomeIcon icon={faTrash} onClick={(e, date) => onDelete(e, training.date)} />
+          <FontAwesomeIcon icon={faPenToSquare} onClick={(e, i) => onEdit(e, index)} />&nbsp;
+          <FontAwesomeIcon icon={faTrash} onClick={(e, i) => onDelete(e, index)} />
         </>
       }
     </td>
