@@ -1,2 +1,2 @@
-# netology-react-forms2
+# react-forms2
 Trainings
